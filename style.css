@@ -234,3 +234,56 @@ button:hover {
   font-size: 24px;
   font-weight: 800;
 }
+
+.collect-link {
+  background: rgba(255,255,255,0.18);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.collect-link:hover { background: rgba(255,255,255,0.28); }
+
+.loading-row {
+  text-align: center;
+  color: #6b7280;
+  padding: 30px;
+  font-weight: 700;
+}
+.pending-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.pr-id { font-weight: 800; font-size: 15px; }
+.pr-meta { color: #6b7280; font-size: 13px; margin: 3px 0 8px; }
+.pr-amounts { font-size: 13px; color: #374151; }
+.pr-balance { color: #dc2626; font-weight: 800; }
+.pr-action { display: flex; gap: 8px; align-items: center; }
+.pr-action .receiveInput { width: 130px; }
+.receive-btn {
+  height: 44px;
+  border: none;
+  border-radius: 12px;
+  background: #16a34a;
+  color: #ffffff;
+  font-weight: 800;
+  padding: 0 18px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.receive-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+@media (max-width: 760px) {
+  .pending-row { flex-direction: column; align-items: stretch; }
+  .pr-action .receiveInput { width: 100%; }
+}
