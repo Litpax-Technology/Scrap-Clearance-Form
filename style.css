@@ -216,3 +216,21 @@ button:hover {
     font-size: 24px;
   }
 }
+.pending-banner {
+  background: #7f1d1d;
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pending-banner span {
+  font-size: 14px;
+  color: #fecaca;
+}
+.pending-banner strong {
+  font-size: 24px;
+  font-weight: 800;
+}
