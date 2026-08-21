@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby6Kkb8Rxd0amDkpL524b-KA3jGKGXbXrGO-ttyYJBtp0wsbRBMAZTmYhQFSMm-QoNaIA/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxjfCcRZ8pKoJUAnzqtqjtMe_h9YsUK6bbw5zf-17xBB9HY4L8tJFbLc17hy1SJC4gCgA/exec";
 
 const itemsBox = document.getElementById("itemsBox");
 const msg = document.getElementById("msg");
@@ -122,13 +122,14 @@ document.getElementById("scrapForm").addEventListener("submit", async function (
 
     const result = await res.json();
 
-    if (result.status === "success") {
+        if (result.status === "success") {
       showMsg("Saved Successfully. ID: " + result.clearanceId, "success");
 
       document.getElementById("scrapForm").reset();
       itemsBox.innerHTML = "";
       addItem();
       calculateTotal();
+      loadPending();
     } else {
       showMsg("Error: " + result.message, "error");
     }
@@ -150,5 +151,21 @@ function showMsg(text, type) {
   msg.className = type;
 }
 
+async function loadPending() {
+  try {
+    const res = await fetch(WEB_APP_URL);
+    const result = await res.json();
+    if (result.status === "success") {
+      document.getElementById("pendingText").innerText =
+        "₹ " + Number(result.totalPending).toFixed(2);
+    } else {
+      document.getElementById("pendingText").innerText = "—";
+    }
+  } catch (e) {
+    document.getElementById("pendingText").innerText = "—";
+  }
+}
+
 addItem();
 calculateTotal();
+loadPending();
