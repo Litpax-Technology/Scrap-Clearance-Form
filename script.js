@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbybnj2DamECVKCWSPgCoojCQE-fhG2PPc5Zh3oSsBQMysNK9AXcjg4qk3ElrfC1UNFrUg/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxStgoI0GL6C2lr9FWHv7u0lT_u61ZLSl8YoA8lzjUTqV43OxF2JV8dOPpQedGX-Y9Adg/exec";
 
 const itemsBox = document.getElementById("itemsBox");
 const msg = document.getElementById("msg");
