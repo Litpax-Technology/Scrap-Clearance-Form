@@ -22,8 +22,19 @@
       <a href="index.html" class="collect-link">← Back to Form</a>
     </div>
 
-    <div id="pageMsg"></div>
-    <div id="listBox"></div>
+    <div class="collect-box">
+      <label class="cb-label">Clearance ID</label>
+      <select id="clearanceSelect" class="cb-select">
+        <option value="">Loading...</option>
+      </select>
+
+      <label class="cb-label">Amount Received</label>
+      <input type="number" id="receiveInput" class="cb-input" min="0" step="0.01" placeholder="₹ amount" />
+
+      <button id="receiveBtn" class="cb-btn">Receive Payment</button>
+
+      <div id="resultLine" class="cb-result"></div>
+    </div>
   </div>
 </div>
 <script src="pending.js"></script>
