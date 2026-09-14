@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxStgoI0GL6C2lr9FWHv7u0lT_u61ZLSl8YoA8lzjUTqV43OxF2JV8dOPpQedGX-Y9Adg/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz5iMArcJmDdpaCjn3RwcgGSSlHMypD09Y87SGXAtP2HG5GNqdBd4ztkextufwUOczn1Q/exec";
 
 const listBox = document.getElementById("listBox");
 const totalPendingText = document.getElementById("totalPendingText");
