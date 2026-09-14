@@ -1,108 +1,98 @@
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz5iMArcJmDdpaCjn3RwcgGSSlHMypD09Y87SGXAtP2HG5GNqdBd4ztkextufwUOczn1Q/exec";
 
-const listBox = document.getElementById("listBox");
+const clearanceSelect = document.getElementById("clearanceSelect");
+const receiveInput = document.getElementById("receiveInput");
+const receiveBtn = document.getElementById("receiveBtn");
+const resultLine = document.getElementById("resultLine");
 const totalPendingText = document.getElementById("totalPendingText");
-const pageMsg = document.getElementById("pageMsg");
+
+let pendingMap = {}; // clearanceId -> balance
 
 async function loadPending() {
-  listBox.innerHTML = `<div class="loading-row">Loading pending entries...</div>`;
+  clearanceSelect.innerHTML = `<option value="">Loading...</option>`;
   try {
     const res = await fetch(WEB_APP_URL);
     const result = await res.json();
 
     if (result.status !== "success") {
-      listBox.innerHTML = `<div class="loading-row">Error loading data.</div>`;
+      totalPendingText.innerText = "Error";
+      clearanceSelect.innerHTML = `<option value="">Error loading</option>`;
       return;
     }
 
     totalPendingText.innerText = "₹ " + Number(result.totalPending).toFixed(2);
 
-    if (!result.pendingList || result.pendingList.length === 0) {
-      listBox.innerHTML = `<div class="loading-row">No pending amount. All cleared 🎉</div>`;
+    pendingMap = {};
+    const list = result.pendingList || [];
+
+    if (list.length === 0) {
+      clearanceSelect.innerHTML = `<option value="">No pending entries 🎉</option>`;
       return;
     }
 
-    listBox.innerHTML = "";
-    result.pendingList.forEach(item => {
-      const row = document.createElement("div");
-      row.className = "pending-row";
-      row.innerHTML = `
-        <div class="pr-info">
-          <div class="pr-id">${item.clearanceId}</div>
-          <div class="pr-meta">Cleared By: ${item.clearedBy || "-"} ${item.remarks ? "• " + item.remarks : ""}</div>
-          <div class="pr-amounts">
-            Total: ₹${Number(item.totalAmount).toFixed(2)} &nbsp;|&nbsp;
-            Received: ₹${Number(item.amountReceived).toFixed(2)} &nbsp;|&nbsp;
-            <span class="pr-balance">Pending: ₹${Number(item.balanceAmount).toFixed(2)}</span>
-          </div>
-        </div>
-        <div class="pr-action">
-          <input type="number" min="0" step="0.01" class="receiveInput" placeholder="Amount" />
-          <button class="receive-btn">Receive</button>
-        </div>
-      `;
-
-      const input = row.querySelector(".receiveInput");
-      const btn = row.querySelector(".receive-btn");
-      btn.addEventListener("click", () => collect(item, input, btn));
-
-      listBox.appendChild(row);
+    let opts = `<option value="">-- Select Clearance ID --</option>`;
+    list.forEach(item => {
+      const bal = Number(item.balanceAmount) || 0;
+      pendingMap[item.clearanceId] = bal;
+      opts += `<option value="${item.clearanceId}">${item.clearanceId} (₹${bal.toFixed(2)})</option>`;
     });
+    clearanceSelect.innerHTML = opts;
 
   } catch (e) {
-    listBox.innerHTML = `<div class="loading-row">Network error. URL check karo.</div>`;
+    totalPendingText.innerText = "Error";
+    clearanceSelect.innerHTML = `<option value="">Network error. URL check karo.</option>`;
   }
 }
 
-async function collect(item, input, btn) {
-  const amount = Number(input.value) || 0;
-  const balance = Number(item.balanceAmount) || 0;
+async function collect() {
+  const clearanceId = clearanceSelect.value;
+  const amount = Number(receiveInput.value) || 0;
 
-  if (amount <= 0) {
-    showMsg("Valid amount daalo.", "error");
-    return;
-  }
+  if (!clearanceId) { showResult("Pehle Clearance ID select karo.", "error"); return; }
+  if (amount <= 0)  { showResult("Valid amount daalo.", "error"); return; }
 
-  // Option B: frontend check (backend bhi rokta hai)
+  const balance = pendingMap[clearanceId] || 0;
   if (amount > balance) {
-    showMsg("Amount pending (₹" + balance.toFixed(2) + ") se zyada hai.", "error");
+    showResult("Amount pending (₹" + balance.toFixed(2) + ") se zyada hai.", "error");
     return;
   }
 
-  if (!confirm("₹" + amount.toFixed(2) + " receive kare " + item.clearanceId + " ke against?")) return;
+  if (!confirm("₹" + amount.toFixed(2) + " receive kare " + clearanceId + " ke against?")) return;
 
-  btn.disabled = true;
-  btn.innerText = "...";
+  receiveBtn.disabled = true;
+  receiveBtn.innerText = "...";
 
   try {
     const res = await fetch(WEB_APP_URL, {
       method: "POST",
-      body: JSON.stringify({
-        action: "collect",
-        clearanceId: item.clearanceId,
-        receiveNow: amount
-      })
+      body: JSON.stringify({ action: "collect", clearanceId: clearanceId, receiveNow: amount })
     });
     const result = await res.json();
 
     if (result.status === "success") {
-      showMsg("Received ✔ " + item.clearanceId + " • New Balance: ₹" + Number(result.newBalance).toFixed(2), "success");
-      loadPending();
+      const nb = Number(result.newBalance);
+      if (nb <= 0) {
+        showResult("Complete ✓  " + clearanceId + " poora clear ho gaya.", "success");
+      } else {
+        showResult("Received ✔  " + clearanceId + " • Ab pending: ₹" + nb.toFixed(2), "success");
+      }
+      receiveInput.value = "";
+      loadPending();   // total + dropdown refresh
     } else {
-      showMsg("Error: " + result.message, "error");
-      btn.disabled = false;
-      btn.innerText = "Receive";
+      showResult("Error: " + result.message, "error");
     }
   } catch (e) {
-    showMsg("Submit error.", "error");
-    btn.disabled = false;
-    btn.innerText = "Receive";
+    showResult("Submit error.", "error");
   }
+
+  receiveBtn.disabled = false;
+  receiveBtn.innerText = "Receive Payment";
 }
 
-function showMsg(text, type) {
-  pageMsg.innerText = text;
-  pageMsg.className = type;
+function showResult(text, type) {
+  resultLine.innerText = text;
+  resultLine.className = "cb-result " + type;
 }
 
+receiveBtn.addEventListener("click", collect);
 loadPending();
