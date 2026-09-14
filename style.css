@@ -287,3 +287,13 @@ button:hover {
   .pending-row { flex-direction: column; align-items: stretch; }
   .pr-action .receiveInput { width: 100%; }
 }
+
+.collect-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:20px;margin-top:8px;}
+.cb-label{display:block;font-size:13px;font-weight:600;color:#374151;margin:14px 0 6px;}
+.cb-label:first-child{margin-top:0;}
+.cb-select,.cb-input{width:100%;padding:11px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:15px;box-sizing:border-box;background:#fff;}
+.cb-btn{width:100%;margin-top:18px;padding:12px;background:#16a34a;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;}
+.cb-btn:disabled{opacity:.6;cursor:not-allowed;}
+.cb-result{margin-top:14px;font-size:14px;font-weight:600;text-align:center;min-height:20px;}
+.cb-result.success{color:#16a34a;}
+.cb-result.error{color:#dc2626;}
