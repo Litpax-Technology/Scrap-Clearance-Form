@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz5iMArcJmDdpaCjn3RwcgGSSlHMypD09Y87SGXAtP2HG5GNqdBd4ztkextufwUOczn1Q/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzxfDJVsVp7gB_fzLqgCvp1I8H7kgKQpeYD5g2eDIhROzGTtGLQewlH1olxYevWaLrAvQ/exec";
 
 const clearanceSelect = document.getElementById("clearanceSelect");
 const receiveInput = document.getElementById("receiveInput");
