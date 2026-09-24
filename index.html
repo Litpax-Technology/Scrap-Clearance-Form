@@ -1,80 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scrap Clearance Form</title>
+  <meta name="theme-color" content="#635bff" />
+  <title>Scrap Khata</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+<main class="wrap">
 
-<div class="app">
-  <div class="form-card">
+  <header class="hero" id="hero">
+    <h1 class="title">Scrap Khata</h1>
+    <p class="hero-label" id="baakiLabel">Abhi Baaki</p>
+    <p class="hero-amount" id="baakiAmount">…</p>
+  </header>
 
-    <div class="header">
-      <h1>Scrap Clearance Form</h1>
-      <p>Add scrap items, quantity, rate and calculate total automatically.</p>
-    </div>
+  <form id="khataForm" class="card" novalidate>
 
-    <div class="pending-banner">
-      <div>
-        <span>Total Pending Amount</span>
-        <strong id="pendingText">Loading...</strong>
+    <section class="block">
+      <h2 class="block-title">Scrap <span class="hint">(agar liya ho)</span></h2>
+      <div id="items"></div>
+      <button type="button" id="addItemBtn" class="btn-link">+ Aur Scrap</button>
+    </section>
+
+    <section class="block fields">
+      <div class="field">
+        <label for="mila">Paisa Mila</label>
+        <input id="mila" type="number" inputmode="decimal" min="0" step="0.01" placeholder="₹ 0" />
       </div>
-      <a href="pending.html" class="collect-link">Collect Pending →</a>
-    </div>
-
-    <form id="scrapForm">
-
-      <div id="itemsBox"></div>
-
-      <button type="button" class="add-btn" onclick="addItem()">+ Add Scrap Item</button>
-
-      <div class="summary-grid">
-        <div class="summary-box">
-          <span>Total Weight</span>
-          <strong id="totalWeightText">0.00 Kg</strong>
-        </div>
-
-        <div class="summary-box">
-          <span>Total Amount</span>
-          <strong id="totalAmountText">₹ 0.00</strong>
-        </div>
+      <div class="field">
+        <label for="kaise">Kaise</label>
+        <select id="kaise"></select>
       </div>
-
-      <div class="grid-2">
-        <div>
-          <label>Amount Received</label>
-          <input type="number" id="amountReceived" min="0" step="0.01" placeholder="Enter amount received" />
-        </div>
-
-        <div>
-          <label>Payment Mode</label>
-          <select id="paymentMode" required>
-            <option value="">Select Payment Mode</option>
-            <option>Cash</option>
-            <option>UPI</option>
-            <option>Bank Transfer</option>
-          </select>
-        </div>
+      <div class="field">
+        <label for="kisne">Kisne</label>
+        <input id="kisne" type="text" placeholder="Naam" />
       </div>
+      <div class="field">
+        <label for="note">Note</label>
+        <input id="note" type="text" placeholder="Kuch likhna ho to" />
+      </div>
+    </section>
 
-      <label>Cleared By</label>
-      <input type="text" id="clearedBy" placeholder="Enter name" required />
+    <p id="afterLine" class="after-line"></p>
+    <button type="submit" id="saveBtn" class="btn-primary">Save</button>
+    <p id="msg" class="msg" role="status"></p>
 
-      <label>Remarks</label>
-      <textarea id="remarks" placeholder="Enter remarks"></textarea>
+  </form>
+</main>
 
-      <button type="submit" class="submit-btn" id="submitBtn">
-        Submit Clearance
-      </button>
-
-      <div id="msg"></div>
-
-    </form>
-  </div>
-</div>
-
-<script src="script.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
