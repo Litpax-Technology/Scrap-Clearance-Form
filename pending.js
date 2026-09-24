@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzxfDJVsVp7gB_fzLqgCvp1I8H7kgKQpeYD5g2eDIhROzGTtGLQewlH1olxYevWaLrAvQ/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxrlzydoMIN1bDIDDriLj9EdmqovaS6o6_p228j0B-mTjHXaLv_Ke5pBU2X5UmT0yJhfA/exec";
 
 const receiveInput = document.getElementById("receiveInput");
 const receiveBtn = document.getElementById("receiveBtn");
